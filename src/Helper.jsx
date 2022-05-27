@@ -6,16 +6,27 @@ export function EmployeeResults(employees) {
   const uniqueEmployees = []
   const dupEmployees = []
 
-  employees.forEach(employee => { 
+  employees?.forEach(employee => { 
     [uniqueEmployees,dupEmployees][+(employees.map(employee => employee.ProjectID)
         .filter(ProjectID => ProjectID === employee.ProjectID).length > 1)]
         .push(employee)
 
-    let startDate = new Date(employee.DateFrom)
-    let endDate = new Date(employee.DateTo)
+    let startDate = new Date(employee?.DateFrom)
+    let endDate = ''
+    let days = ''
+
+    console.log('isNaN(endDate)', isNaN(endDate))
+
+    if(isNaN(endDate) === false) {
+      endDate = new Date()
+    } else {
+      endDate = new Date(employee?.DateTo)
+    }
 
     const time = Math.abs(startDate - endDate)
-    const days = Math.ceil(time / (1000 * 60 * 60 * 24))
+    days = Math.ceil(time / (1000 * 60 * 60 * 24))
+
+    //console.log('days', days)
 
     employee.totalWorkingDays = days
 
